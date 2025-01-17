@@ -1,0 +1,188 @@
+#primero que nada instalar python y Django.
+la version de python y django que estoy utilizando son:
+python:3.11.4
+Django:3.2.6
+
+#Crear carpeta del proyecto en mi caso la carpeta se llama "proyecto_serio" el mismo nombre que tiene el repositorio.
+
+#abrir la carpeta con visual studio code.
+
+#en la terminal colocar cd desktop y luego cd proyecto_serio
+
+#instalar un ambiente virtual para dejar el proyecto mas seguro.
+
+#"env: es un ambiente virtual".
+
+#Para instarlo ver que la terminal se vea asi "C:\Users\Nicolas\Desktop\proyecto_serio>" 
+y poner lo siguiente: "pip install virtualenv". 
+
+#en caso de no tener pip, buscar como instalrlo en google y poner los comandos en la terminal.
+
+#para activar el ambiente virtual se debe colocar ls para ver si esta la carpeta env. Luego al estar dentro del ambiente virtual,
+ir a Scripts y de Scripts colocar activate en la terminal.
+
+#Instalamos env (el ambiente virtual) para evitar conflictos entre el codigo que escribimos y las distintas versiones de python
+o de las librerias que vamos instalando en nuestro computador.
+
+#Archivo git ignore fuera del env sirve para ignorar toda la carpeta env al subir cosas a github-
+django pypi=pagina con muchos repositorios de python.
+
+#Branch es como se encuentra el archivo en la actualidad con versiones incluidas.
+
+#Para salir del ambiente virtual en caso de que en la terminal se vea asi: (env) C:\Users\Nicolas\Desktop\proyecto_serio\env\Scripts> 
+solo hay que poner "deactivate" en el terminal.
+
+#Al salir del ambiente virtual hay que volver al desktop con este comando "cd C:\Users\Nicolas\Desktop".
+
+#Al tener todo esto se debe crear la carpeta core con el siguiente comando: "django-admin startproject core .".
+
+#La carpeta Core sirve para ordenar y estructurar el proyecto centralizando las configuraciones y sus funcionalidades claves.
+Como por ejemplo: centralizar las configuraciones "settings.py", Urls principales "urls.py", funciones utilitarias "signals.py".
+
+#Crear la carpeta core nos es util para:
+1)Mejora la organización del código.
+2)Facilita la escalabilidad.
+3)Separa la configuración de la lógica de negocio.
+
+#Ejemplo de la estructura core:
+mi_proyecto/
+│
+├── core/               # Lógica principal y configuraciones
+│   ├── __init__.py
+│   ├── settings.py     # Configuración del proyecto
+│   ├── urls.py         # Rutas principales
+│   ├── views.py        # Vistas generales
+│   ├── signals.py      # Señales globales
+│   └── utils.py        # Funciones de utilidad
+│
+├── apps/               # Otras apps específicas
+│   └── blog/
+│       ├── models.py
+│       ├── views.py
+│       └── urls.py
+│
+├── manage.py
+└── requirements.txt
+
+
+
+#si decidimos añadir un ambiente virtual como en este caso quedaria algo como el ejemplo de aqui:
+mi_proyecto/
+│
+├── core/               # Lógica principal y configuraciones
+│   ├── __init__.py
+│   ├── settings.py     # Configuración del proyecto
+│   ├── urls.py         # Rutas principales
+│   ├── views.py        # Vistas generales
+│   ├── signals.py      # Señales globales
+│   └── utils.py        # Funciones de utilidad
+│
+├── apps/               # Otras apps específicas
+│   └── blog/
+│       ├── models.py
+│       ├── views.py
+│       └── urls.py
+│
+├── env/                # Entorno virtual (NO se sube al repositorio)
+│   ├── Scripts/        # Scripts de activación (Windows)
+│   ├── bin/            # Scripts de activación (Linux/Mac)
+│   ├── Lib/            # Librerías instaladas
+│   └── pyvenv.cfg      # Configuración del entorno virtual
+│
+├── manage.py           # Script principal para comandos de Django
+├── requirements.txt    # Dependencias del proyecto
+└── .gitignore          # Ignora archivos/carpetas al versionar (incluye env/)
+
+#Y en este caso la carpeta env nos sirve para crear un espacio aislado donde se instalan todas las 
+dependencias necesarias sin afectar al proyecto ni al sistema operativo.
+
+#al crear core se crea el archivo manage.py el cual nos sirve para correr el servidor (Nuestra pagina).
+comando para correrlo python manage.py runserver.
+al hacer eso aparecera un nuevo archivo el cual es "db.sqlite3" el cual es nuestra base de datos.
+
+#http://127.0.0.1:8000/ este es el server de nuestro proyecto es donde se veran todos los cambios visuales que hacemos.
+
+#en caso de que en la terminal salga este mensaje "You have 18 unapplied migration(s). Your project may not work properly until you apply the migrations for app(s): admin, auth, contenttypes, sessions.
+Run 'python manage.py migrate' to apply them." esto nos permite hacer las migraciones.
+
+#Las migraciones en Django son para crear migraciones hacia la base de datos para generar la creacion de tablas, modificacion la adicion de indices y etc....
+#este se va al archiuvo models.py para mantener el esquema de la base de datos en el codigo.
+#si uno va a realizar cambios en los modelos como agregar un nuevo modelo o modificar uno existente 
+se debe utilizar este comando:"python manage.py makemigrations".
+
+#subimos los cambios a git hub mediante los branch. o ponemos en el terminal:
+git add .
+git commit --m"first commit"
+git push
+depende cual usara cada uno.
+
+APARTADO DE SETTINGS.PY
+#en settings.py en el apartado de INSTALLED_APPS sirve para añadirle extensiones a tu pagina.
+vienen algunas predestinadas por django, ahi se debe instalar core para que django
+tenga acceso a todo lo que esta en la carpeta core.
+
+#SECRET_KEY: se debe proteger porque nos entrega los datos de error que se nos pueda presentar en la pagina
+esta se debe proteger para evitar que malintencionados sepan las vulnerabilidades del sitio.
+
+#El debug es un modo de depuracion en Django el cual nos facilita la identificacion de errores en el proyecto.
+nos sirve para:
+1)Mostrar errores detallados: Cuando ocurre un error en tu aplicación, el modo debug muestra una página de error con detalles completos
+2)Ver variables y contexto: En lugar de solo mostrar el mensaje de error, Django en modo debug te muestra las variables locales y el contexto de la solicitud en la misma página de error, lo que te ayuda a entender mejor el flujo de ejecución y los valores en el momento del error.
+3)Visualización de solicitudes HTTP: En el modo debug, puedes ver el registro completo de las solicitudes HTTP
+4)Herramientas de desarrollo:Cuando DEBUG = True, Django habilita herramientas como el template debug que permite ver los templates que se están utilizando, y el Django Debug Toolbar, una barra de herramientas interactiva que te proporciona información sobre el rendimiento de las vistas, las consultas a la base de datos, entre otros.
+
+debug funciona de la siguiente manera:
+el valor de debug el cual es booleano se configura en el archivo settings.py del proyecto Django puede ser True el cual es el valor predeterminado para un entorno de desarrollo
+no se deja en True al estar en un ambiente de Produccion se debe colocar el valor en False para evitar que la 
+informacion sensible sea expuesta y malintencionados interfieran con ello.
+
+#Al utilizar el comando python manage.py runserver se nos abrira el server de Django como admin.
+si tomamos la url que nos proporciona la terminal que seria algo como esto: "http://127.0.0.1:8000/" y le ponemos esto al final
+"http://127.0.0.1:8000/admin/" se nos abrira la seccion de administrador de Django.
+
+CREACION DE SUPERUSUARIO (ADMIN)
+#Para crear una sesion de administrador se debe colocar el siguiente comando en al terminal: "python manage.py createsuperuser",
+al hacer esto se nos da a crear nuestro rol de administrador nos pide nombre de usuario, correo y contraseña.
+en mi caso sera.
+username:nicolas
+Email address: n.jerez@duocuc.cl
+password: administrador.123
+
+#En ALLOWED_HOSTS dentro de [] se debe colocar "*",  quedaria asi ["*"]. ALLOWED_HOSTS es un parametro de seguridad que define el dominio
+o las direcciones IP.
+en nuestro caso al ser un desarrollo local se queda como ALLOWED_HOSTS["*"].
+si estuviesemos en fase de produccion aqui podemos ver un ejemplo: 
+-Para Dominios
+ALLOWED_HOSTS = ['mi-sitio.com', 'www.mi-sitio.com', 'subdominio.mi-sitio.com'].
+-Para direcciones IP
+ALLOWED_HOSTS = ['192.168.1.1', 'mi-sitio.com']
+ALLOWED_HOSTS ayuda a proteger tu aplicación Django de ataques basados en el encabezado Host.
+En producción, siempre debes especificar explícitamente los dominios permitidos para mejorar la seguridad de tu aplicación.
+En desarrollo, recuerda usar ALLOWED_HOSTS = ['*'], pero no lo uses en producción.
+
+Las variables SECRET_KEY, DEBUG y ALLOWED_HOSTS son muy utiles al final del proyecto. 
+
+#Templates nos sirve para configurar y manejar las plantillas HTML y asi renderizar su contenido. 
+
+#WSGI_APPLICATION se utiliza para definir la aplicación WSGI que Django usará para interactuar con el servidor web.
+
+#luego de todo esto ir a la carpeta core, hacer clic derecho y apretar new file.
+crear views.py y importar views: "from django.views.generic import View " asi generamos vistas de clases y de funciones.
+para crear la primera vista es creamos la clase HomeView.
+existe el "get request" que es para poder llamar la informacion para poder ver.
+Y post request es lo que envias para mandarlo al servidor y asi el servidor haga algo.
+
+En settings en el apartado de templates hay que dejar en dirs esto 'DIRS': [os.path.join(BASE_DIR, 'templates')],
+importando os para que sirva. 
+luego ir a views y crear la vista de clase y en urls importar el HomeView que creamos y crear un url para que al estar en home nos redirija a index.HTML.
+
+#para proteger nuestra informacion como contrtaseñas de correo y etc.
+para eso en requerimientos.txt colocaremos django-environ==0.4.5.
+django-environ es una librería que facilita la gestión de las configuraciones de tu proyecto Django utilizando variables de entorno.
+las variables de entorno son: Las variables de entorno en Django (y en programación en general) son valores que están definidos
+en el sistema operativo y que las aplicaciones pueden usar para configurar su comportamiento sin tener que codificar esos valores directamente en el código fuente.
+utilizamos el environ para proteger las variables de ambiente.
+
+#ahora crearemos un app en Django con el comando "python manage.py startapp "nombre de la app"."
+la cual ya viene con las migraciones ya hechas
+
